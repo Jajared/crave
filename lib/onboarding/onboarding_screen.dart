@@ -5,6 +5,7 @@ import 'package:bereal/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -108,10 +109,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               ),
               TextField(
                 controller: controllers[step],
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CustomInputFormatter()
-                ],
                 maxLength: 10,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
@@ -135,15 +132,30 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 style: ref.watch(stylesProvider).button.primaryLarge,
                 onPressed: () {
                   if (controllers[step].text.isNotEmpty) {
-                    setState(() {
-                      step = step + 1;
-                      _addNewUser(
-                        "1",
-                        controllers[0].text,
-                        controllers[1].text,
-                      ).then((result) => {
-                            if (result == true) {context.go('/')}
-                          });
+                    _addNewUser(
+                      "1",
+                      controllers[0].text,
+                      controllers[1].text,
+                    ).then((result) {
+                      if (result == true) {
+                        const storage = FlutterSecureStorage();
+                        storage
+                            .write(
+                                key: 'user',
+                                value: UserModel(
+                                        id: "1",
+                                        name: controllers[1].text,
+                                        email: controllers[0].text)
+                                    .toJson()
+                                    .toString())
+                            .then((_) => context.go('/'));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Error creating user'),
+                          ),
+                        );
+                      }
                     });
                   } else {
                     setState(() {

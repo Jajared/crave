@@ -13,7 +13,7 @@ class MongoDB {
 
   static Future<bool> addNewUser(UserModel newUser) async {
     try {
-      await userCollection.insertOne({newUser.toJson()});
+      await userCollection.insertOne(newUser.toJson());
 
       return true;
     } catch (e) {

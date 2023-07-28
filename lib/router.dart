@@ -12,7 +12,8 @@ final GoRouter router = GoRouter(
   routes: <GoRoute>[
     GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) => const HomeScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomeScreen(),
         redirect: (context, state) async {
           const storage = FlutterSecureStorage();
           FlutterNativeSplash.remove();
@@ -30,7 +31,8 @@ final GoRouter router = GoRouter(
               return CustomTransitionPage(
                   transitionDuration: const Duration(milliseconds: 200),
                   child: const ContactScreen(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
                     return Stack(
                       children: <Widget>[
                         SlideTransition(
@@ -68,7 +70,8 @@ final GoRouter router = GoRouter(
               return CustomTransitionPage(
                   transitionDuration: const Duration(milliseconds: 200),
                   child: const ProfileScreen(),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
                     return Stack(
                       children: <Widget>[
                         SlideTransition(
@@ -106,6 +109,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const RealCameraScreen(),
     ),
     GoRoute(
-        path: '/onboarding', builder: (BuildContext context, GoRouterState state) => const OnboardingScreen(step: 0)),
+        path: '/onboarding',
+        builder: (BuildContext context, GoRouterState state) =>
+            const OnboardingScreen(step: 0)),
   ],
 );

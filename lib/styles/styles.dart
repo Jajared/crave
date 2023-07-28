@@ -14,28 +14,43 @@ class _Text {
   TextStyle get titleFont => const TextStyle(fontFamily: 'Roboto');
   TextStyle get contentFont => const TextStyle(fontFamily: 'Roboto');
 
-  late final TextStyle title = titleFont.copyWith(fontWeight: FontWeight.w700, fontSize: 30);
+  late final TextStyle title =
+      titleFont.copyWith(fontWeight: FontWeight.w700, fontSize: 30);
 
-  late final TextStyle hint =
-      titleFont.copyWith(fontWeight: FontWeight.w700, fontSize: 36, color: AppColors().toThemeData().hintColor);
+  late final TextStyle hint = titleFont.copyWith(
+      fontWeight: FontWeight.w700,
+      fontSize: 20,
+      color: AppColors().toThemeData().hintColor);
 
-  late final TextStyle hintSearchInput =
-      titleFont.copyWith(fontWeight: FontWeight.w600, fontSize: 16, color: AppColors().toThemeData().hintColor);
+  late final TextStyle hintSearchInput = titleFont.copyWith(
+      fontWeight: FontWeight.w600,
+      fontSize: 16,
+      color: AppColors().toThemeData().hintColor);
 
-  late final TextStyle body = contentFont.copyWith(fontWeight: FontWeight.w400, fontSize: 16);
-  late final TextStyle bodyBold = contentFont.copyWith(fontWeight: FontWeight.w700, fontSize: 16);
-  late final TextStyle bodySmall = contentFont.copyWith(fontWeight: FontWeight.w400, fontSize: 12);
-  late final TextStyle bodySmallBold = contentFont.copyWith(fontWeight: FontWeight.w700, fontSize: 12);
+  late final TextStyle body =
+      contentFont.copyWith(fontWeight: FontWeight.w400, fontSize: 16);
+  late final TextStyle bodyBold =
+      contentFont.copyWith(fontWeight: FontWeight.w700, fontSize: 16);
+  late final TextStyle bodySmall =
+      contentFont.copyWith(fontWeight: FontWeight.w400, fontSize: 12);
+  late final TextStyle bodySmallBold =
+      contentFont.copyWith(fontWeight: FontWeight.w700, fontSize: 12);
 
-  late final TextStyle countdown = contentFont.copyWith(fontWeight: FontWeight.w800, fontSize: 20);
-  late final TextStyle countdownRed = countdown.copyWith(color: Colors.red[600]);
+  late final TextStyle countdown =
+      contentFont.copyWith(fontWeight: FontWeight.w800, fontSize: 20);
+  late final TextStyle countdownRed =
+      countdown.copyWith(color: Colors.red[600]);
 
-  late final TextStyle btn = contentFont.copyWith(fontWeight: FontWeight.w600, fontSize: 14);
+  late final TextStyle btn =
+      contentFont.copyWith(fontWeight: FontWeight.w600, fontSize: 14);
 
   // Real texts
-  late final TextStyle bodyReal = contentFont.copyWith(fontWeight: FontWeight.w600, fontSize: 14);
+  late final TextStyle bodyReal =
+      contentFont.copyWith(fontWeight: FontWeight.w600, fontSize: 14);
   late final TextStyle bodyRealSecondary = contentFont.copyWith(
-      fontWeight: FontWeight.w400, fontSize: 12, color: AppColors().toThemeData().colorScheme.primary.withAlpha(100));
+      fontWeight: FontWeight.w400,
+      fontSize: 12,
+      color: AppColors().toThemeData().colorScheme.primary.withAlpha(100));
 }
 
 @immutable
@@ -43,7 +58,8 @@ class _Button {
   TextStyle get font => const TextStyle(fontFamily: 'Roboto');
 
   final ButtonStyle textBtn = ButtonStyle(
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(const EdgeInsets.all(0)),
+      padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+          const EdgeInsets.all(0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       minimumSize: MaterialStateProperty.all<Size>(const Size(0, 0)),
       textStyle: MaterialStateProperty.resolveWith((_) => _Text().bodyBold),
@@ -63,7 +79,8 @@ class _Button {
       padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       textStyle: MaterialStateProperty.resolveWith((_) => _Text().bodyBold),
-      foregroundColor: MaterialStateColor.resolveWith((Set<MaterialState> states) => Colors.grey.shade800),
+      foregroundColor: MaterialStateColor.resolveWith(
+          (Set<MaterialState> states) => Colors.grey.shade800),
       overlayColor: MaterialStateProperty.resolveWith<Color?>(
         (Set<MaterialState> states) {
           if (states.contains(MaterialState.hovered) ||
