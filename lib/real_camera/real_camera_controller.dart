@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:crave/real_camera/real_camera_state.dart';
 import 'package:camera/camera.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:geolocator/geolocator.dart';
 
 part 'real_camera_controller.g.dart';
 
@@ -38,10 +38,10 @@ class RealCameraController extends _$RealCameraController {
     await _controller.initialize();
     _controller.setZoomLevel(await _controller.getMinZoomLevel());
     _controller.setFlashMode(FlashMode.off);
-    sleep(const Duration(milliseconds: 500));
-    final selfie = await _controller.takePicture();
-
-    state = RealCameraState.finalized(photo: image, selfie: selfie);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    state = RealCameraState.finalized(
+        location: LatLng(position.latitude, position.longitude), photo: image);
   }
 
   void dispose() {

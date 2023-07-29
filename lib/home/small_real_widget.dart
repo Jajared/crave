@@ -4,13 +4,14 @@ import 'dart:math' as math;
 import 'package:crave/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SmallRealWidget extends ConsumerStatefulWidget {
-  const SmallRealWidget({Key? key, required this.photo, required this.selfie})
+  const SmallRealWidget({Key? key, required this.photo, required this.location})
       : super(key: key);
 
   final File photo;
-  final File selfie;
+  final LatLng location;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -50,7 +51,7 @@ class _SmallRealWidgetState extends ConsumerState<SmallRealWidget> {
                             image: DecorationImage(
                               fit: BoxFit.fitWidth,
                               alignment: FractionalOffset.center,
-                              image: FileImage(widget.selfie),
+                              image: FileImage(widget.photo),
                             )),
                       ),
                     ))

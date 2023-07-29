@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -73,14 +74,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ));
   }
 
-  Widget posted(XFile photo, XFile selfie) {
+  Widget posted(XFile photo, LatLng location) {
     return Padding(
       padding: const EdgeInsets.only(top: 130),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SmallRealWidget(photo: File(photo.path), selfie: File(selfie.path)),
+          SmallRealWidget(photo: File(photo.path), location: location),
           Flexible(
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),

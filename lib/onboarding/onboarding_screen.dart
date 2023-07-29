@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:crave/core/models/user_model.dart';
 import 'package:crave/core/ui/anon_appbar_widget.dart';
 import 'package:crave/db/mongodb.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key, required this.step});
@@ -22,12 +25,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   List<String> titles = [
     "Let’s get started, what's your email?",
-    "How should we call you?"
+    "How should we call you?",
+    "Upload a profile picture"
   ];
 
   List<String> placeholders = [
     "Your email",
     "Your name",
+    "Upload a profile picture"
   ];
 
   List<TextEditingController> controllers = [
@@ -35,7 +40,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     TextEditingController(),
   ];
 
-  List<bool> hasError = [false, false];
+  List<bool> hasError = [false, false, false];
 
   @override
   void initState() {
@@ -132,6 +137,90 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 style: ref.watch(stylesProvider).button.primaryLarge,
                 onPressed: () {
                   if (controllers[step].text.isNotEmpty) {
+                    setState(() {
+                      step = step + 1;
+                    });
+                  } else {
+                    setState(() {
+                      hasError[step] = true;
+                    });
+                  }
+                },
+                child: const Text('Continue'))),
+      ],
+    );
+  }
+
+  Widget _step3() {
+    File? _pickedImage; // Holds the picked image
+
+    void _pickImage(ImageSource source) async {
+      try {
+        final pickedFile = await ImagePicker().pickImage(source: source);
+        if (pickedFile != null) {
+          setState(() {
+            _pickedImage = File(pickedFile.path);
+          });
+        }
+      } on PlatformException catch (e) {
+        // Handle errors related to image picking
+        print('Error picking image: $e');
+      }
+    }
+
+    void _takePhoto() {
+      _pickImage(ImageSource.camera);
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            children: [
+              Text(
+                titles[step],
+                style: ref.watch(stylesProvider).text.bodySmallBold,
+              ),
+              Container(
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: _pickedImage != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.file(
+                          _pickedImage!,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Icon(
+                        Icons.camera_alt,
+                        size: 100,
+                        color: Colors.grey[600],
+                      ),
+              ),
+              ElevatedButton(
+                onPressed: () => _takePhoto(),
+                child: Text('Take Picture'),
+              ),
+              ElevatedButton(
+                onPressed: () => _pickImage(ImageSource.gallery),
+                child: Text('Choose from Gallery'),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: ElevatedButton(
+                style: ref.watch(stylesProvider).button.primaryLarge,
+                onPressed: () {
+                  if (controllers[step].text.isNotEmpty) {
                     _addNewUser(
                       "1",
                       controllers[0].text,
@@ -183,6 +272,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         return _step1();
       case 1:
         return _step2();
+      case 2:
+        return _step3();
       default:
         return _step1();
     }
