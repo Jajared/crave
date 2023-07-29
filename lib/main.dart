@@ -1,6 +1,6 @@
-import 'package:bereal/db/mongodb.dart';
-import 'package:bereal/router.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/db/mongodb.dart';
+import 'package:crave/router.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

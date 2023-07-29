@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:bereal/core/models/post_model.dart';
-import 'package:bereal/core/models/user_model.dart';
-import 'package:bereal/db/mongodb.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/core/models/post_model.dart';
+import 'package:crave/core/models/user_model.dart';
+import 'package:crave/db/mongodb.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,18 +1,20 @@
 import 'dart:io';
 import 'dart:math' as math;
 
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SmallRealWidget extends ConsumerStatefulWidget {
-  const SmallRealWidget({Key? key, required this.photo, required this.selfie}) : super(key: key);
+  const SmallRealWidget({Key? key, required this.photo, required this.selfie})
+      : super(key: key);
 
   final File photo;
   final File selfie;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SmallRealWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SmallRealWidgetState();
 }
 
 class _SmallRealWidgetState extends ConsumerState<SmallRealWidget> {
@@ -60,21 +62,25 @@ class _SmallRealWidgetState extends ConsumerState<SmallRealWidget> {
         TextButton(
             onPressed: () {},
             style: ref.watch(stylesProvider).button.textBtn,
-            child: Text("Add legend...", style: ref.watch(stylesProvider).text.bodyReal)),
+            child: Text("Add legend...",
+                style: ref.watch(stylesProvider).text.bodyReal)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Paris", style: ref.watch(stylesProvider).text.bodyRealSecondary),
+            Text("Paris",
+                style: ref.watch(stylesProvider).text.bodyRealSecondary),
             const SizedBox(width: 3),
             Text("•", style: ref.watch(stylesProvider).text.bodyRealSecondary),
             const SizedBox(width: 3),
-            Text("12:53:22", style: ref.watch(stylesProvider).text.bodyRealSecondary),
+            Text("12:53:22",
+                style: ref.watch(stylesProvider).text.bodyRealSecondary),
             IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.more_horiz),
                 iconSize: 16,
                 style: ref.watch(stylesProvider).button.btnFlat,
-                color: ref.watch(themeProvider).colorScheme.primary.withAlpha(100))
+                color:
+                    ref.watch(themeProvider).colorScheme.primary.withAlpha(100))
           ],
         )
       ],

@@ -1,1 +1,1 @@
-const APP_NAME = "BeReal";
+const APP_NAME = "crave";

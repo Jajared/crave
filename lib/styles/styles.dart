@@ -1,4 +1,4 @@
-import 'package:bereal/styles/colors.dart';
+import 'package:crave/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 @immutable

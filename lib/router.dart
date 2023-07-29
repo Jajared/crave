@@ -1,8 +1,8 @@
-import 'package:bereal/contact/contact_screen.dart';
-import 'package:bereal/home/home_screen.dart';
-import 'package:bereal/onboarding/onboarding_screen.dart';
-import 'package:bereal/profile/profile_screen.dart';
-import 'package:bereal/real_camera/real_camera_screen.dart';
+import 'package:crave/contact/contact_screen.dart';
+import 'package:crave/home/home_screen.dart';
+import 'package:crave/onboarding/onboarding_screen.dart';
+import 'package:crave/profile/profile_screen.dart';
+import 'package:crave/real_camera/real_camera_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

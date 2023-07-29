@@ -1,6 +1,6 @@
-import 'package:bereal/core/models/post_model.dart';
-import 'package:bereal/core/models/user_model.dart';
-import 'package:bereal/db/config.dart';
+import 'package:crave/core/models/post_model.dart';
+import 'package:crave/core/models/user_model.dart';
+import 'package:crave/db/config.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDB {

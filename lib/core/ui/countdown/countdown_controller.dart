@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bereal/core/ui/countdown/countdown_state.dart';
+import 'package:crave/core/ui/countdown/countdown_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'countdown_controller.g.dart';
@@ -28,7 +28,8 @@ class CountdownController extends _$CountdownController {
   }
 
   void _onTick(Timer timer) {
-    state = CountdownState.progress(state.duration - const Duration(seconds: 1));
+    state =
+        CountdownState.progress(state.duration - const Duration(seconds: 1));
 
     if (state.duration.inSeconds == 0) {
       timer.cancel();

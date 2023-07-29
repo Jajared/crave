@@ -1,4 +1,4 @@
-import 'package:bereal/onboarding/phone_verification_repository.dart';
+import 'package:crave/onboarding/phone_verification_repository.dart';
 
 class PhoneVerificationService {
   PhoneVerificationService({required this.phoneVerificationRepository});

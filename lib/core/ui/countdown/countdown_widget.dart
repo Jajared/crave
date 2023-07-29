@@ -1,7 +1,7 @@
-import 'package:bereal/core/ui/countdown/countdown_controller.dart';
-import 'package:bereal/core/ui/countdown/countdown_state.dart';
-import 'package:bereal/core/ui/countdown/digit_widget.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/core/ui/countdown/countdown_controller.dart';
+import 'package:crave/core/ui/countdown/countdown_state.dart';
+import 'package:crave/core/ui/countdown/digit_widget.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +11,8 @@ class CountdownWidget extends ConsumerStatefulWidget {
   const CountdownWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CountdownWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CountdownWidgetState();
 }
 
 class _CountdownWidgetState extends ConsumerState<CountdownWidget> {
@@ -31,7 +32,8 @@ class _CountdownWidgetState extends ConsumerState<CountdownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(countdownControllerProvider, (CountdownState? oldState, CountdownState newState) {
+    ref.listen(countdownControllerProvider,
+        (CountdownState? oldState, CountdownState newState) {
       if (newState.isProgress || newState.isInitial) {
         if (newState.duration.inSeconds == 30) {
           HapticFeedback.lightImpact();
@@ -45,14 +47,18 @@ class _CountdownWidgetState extends ConsumerState<CountdownWidget> {
         setState(() {
           _digits = [
             DigitWidget(
-                currentDigit: int.parse(oldState!.duration.inMinutes.toString().padLeft(2, '0')[0]),
-                nextDigit: int.parse(newState.duration.inMinutes.toString().padLeft(2, '0')[0]),
+                currentDigit: int.parse(
+                    oldState!.duration.inMinutes.toString().padLeft(2, '0')[0]),
+                nextDigit: int.parse(
+                    newState.duration.inMinutes.toString().padLeft(2, '0')[0]),
                 style: _redDigits
                     ? ref.watch(stylesProvider).text.countdownRed
                     : ref.watch(stylesProvider).text.countdown),
             DigitWidget(
-                currentDigit: int.parse(oldState.duration.inMinutes.toString().padLeft(2, '0')[1]),
-                nextDigit: int.parse(newState.duration.inMinutes.toString().padLeft(2, '0')[1]),
+                currentDigit: int.parse(
+                    oldState.duration.inMinutes.toString().padLeft(2, '0')[1]),
+                nextDigit: int.parse(
+                    newState.duration.inMinutes.toString().padLeft(2, '0')[1]),
                 style: _redDigits
                     ? ref.watch(stylesProvider).text.countdownRed
                     : ref.watch(stylesProvider).text.countdown),
@@ -61,14 +67,22 @@ class _CountdownWidgetState extends ConsumerState<CountdownWidget> {
                     ? ref.watch(stylesProvider).text.countdownRed
                     : ref.watch(stylesProvider).text.countdown),
             DigitWidget(
-                currentDigit: int.parse((oldState.duration.inSeconds % 60).toString().padLeft(2, '0')[0]),
-                nextDigit: int.parse((newState.duration.inSeconds % 60).toString().padLeft(2, '0')[0]),
+                currentDigit: int.parse((oldState.duration.inSeconds % 60)
+                    .toString()
+                    .padLeft(2, '0')[0]),
+                nextDigit: int.parse((newState.duration.inSeconds % 60)
+                    .toString()
+                    .padLeft(2, '0')[0]),
                 style: _redDigits
                     ? ref.watch(stylesProvider).text.countdownRed
                     : ref.watch(stylesProvider).text.countdown),
             DigitWidget(
-                currentDigit: int.parse((oldState.duration.inSeconds % 60).toString().padLeft(2, '0')[1]),
-                nextDigit: int.parse((newState.duration.inSeconds % 60).toString().padLeft(2, '0')[1]),
+                currentDigit: int.parse((oldState.duration.inSeconds % 60)
+                    .toString()
+                    .padLeft(2, '0')[1]),
+                nextDigit: int.parse((newState.duration.inSeconds % 60)
+                    .toString()
+                    .padLeft(2, '0')[1]),
                 style: _redDigits
                     ? ref.watch(stylesProvider).text.countdownRed
                     : ref.watch(stylesProvider).text.countdown),

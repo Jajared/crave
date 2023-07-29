@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:bereal/core/models/post_model.dart';
-import 'package:bereal/home/real_widget.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/core/models/post_model.dart';
+import 'package:crave/home/real_widget.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';

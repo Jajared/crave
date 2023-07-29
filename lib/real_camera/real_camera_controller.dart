@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bereal/real_camera/real_camera_state.dart';
+import 'package:crave/real_camera/real_camera_state.dart';
 import 'package:camera/camera.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +18,8 @@ class RealCameraController extends _$RealCameraController {
   void init() async {
     final cameras = await availableCameras();
     _controller = CameraController(
-        cameras.firstWhere((description) => description.lensDirection == CameraLensDirection.back),
+        cameras.firstWhere((description) =>
+            description.lensDirection == CameraLensDirection.back),
         ResolutionPreset.high);
     await _controller.initialize();
     _controller.setZoomLevel(await _controller.getMinZoomLevel());
@@ -31,7 +32,8 @@ class RealCameraController extends _$RealCameraController {
 
     final cameras = await availableCameras();
     _controller = CameraController(
-        cameras.firstWhere((description) => description.lensDirection == CameraLensDirection.front),
+        cameras.firstWhere((description) =>
+            description.lensDirection == CameraLensDirection.front),
         ResolutionPreset.high);
     await _controller.initialize();
     _controller.setZoomLevel(await _controller.getMinZoomLevel());

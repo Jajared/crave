@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,9 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
                 children: [
                   Flexible(
                     child: Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade900),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey.shade900),
                       child: Focus(
                         child: TextField(
                           controller: _searchController,
@@ -61,7 +63,10 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
                               iconColor: Colors.grey.shade500,
                               border: InputBorder.none,
                               hintText: 'Add or search friends',
-                              hintStyle: ref.watch(stylesProvider).text.hintSearchInput),
+                              hintStyle: ref
+                                  .watch(stylesProvider)
+                                  .text
+                                  .hintSearchInput),
                           style: ref.watch(stylesProvider).text.body,
                         ),
                         onFocusChange: (value) {
@@ -81,7 +86,8 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
                       visible: _searchBoxFocused,
                       child: FadeInRight(
                         duration: const Duration(milliseconds: 300),
-                        controller: (controller) => _animationController = controller,
+                        controller: (controller) =>
+                            _animationController = controller,
                         child: TextButton(
                           child: const Text("Cancel"),
                           onPressed: () {
@@ -109,31 +115,43 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
                         Color.fromARGB(255, 29, 29, 29),
                       ],
                     )),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundImage: CachedNetworkImageProvider('https://i.pravatar.cc/100?img=38'),
-                      ),
-                      const SizedBox(width: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                            'Invite your friends on BeReal',
-                            style: ref.watch(stylesProvider).text.bodySmallBold,
+                          const CircleAvatar(
+                            radius: 20,
+                            backgroundImage: CachedNetworkImageProvider(
+                                'https://i.pravatar.cc/100?img=38'),
                           ),
-                          Text('bere.al/alice007',
-                              style: ref.watch(stylesProvider).text.bodySmall.copyWith(color: Colors.grey.shade500))
+                          const SizedBox(width: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Invite your friends on BeReal',
+                                style: ref
+                                    .watch(stylesProvider)
+                                    .text
+                                    .bodySmallBold,
+                              ),
+                              Text('bere.al/alice007',
+                                  style: ref
+                                      .watch(stylesProvider)
+                                      .text
+                                      .bodySmall
+                                      .copyWith(color: Colors.grey.shade500))
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.share))
-                ]),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(CupertinoIcons.share))
+                    ]),
               ))
             ],
           ),

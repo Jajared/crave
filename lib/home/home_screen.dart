@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:bereal/core/models/post_model.dart';
-import 'package:bereal/core/providers/scroll_behavior.dart';
-import 'package:bereal/core/ui/user_appbar_widget.dart';
-import 'package:bereal/db/mongodb.dart';
-import 'package:bereal/home/real_social_widget.dart';
-import 'package:bereal/home/small_real_widget.dart';
-import 'package:bereal/real_camera/real_camera_controller.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/core/models/post_model.dart';
+import 'package:crave/core/providers/scroll_behavior.dart';
+import 'package:crave/core/ui/user_appbar_widget.dart';
+import 'package:crave/db/mongodb.dart';
+import 'package:crave/home/real_social_widget.dart';
+import 'package:crave/home/small_real_widget.dart';
+import 'package:crave/real_camera/real_camera_controller.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

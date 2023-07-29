@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:bereal/core/ui/countdown/countdown_controller.dart';
-import 'package:bereal/core/ui/countdown/countdown_state.dart';
-import 'package:bereal/core/ui/countdown/countdown_widget.dart';
-import 'package:bereal/home/real_widget.dart';
-import 'package:bereal/real_camera/real_camera_controller.dart';
-import 'package:bereal/styles/theme_provider.dart';
+import 'package:crave/core/ui/countdown/countdown_controller.dart';
+import 'package:crave/core/ui/countdown/countdown_state.dart';
+import 'package:crave/core/ui/countdown/countdown_widget.dart';
+import 'package:crave/home/real_widget.dart';
+import 'package:crave/real_camera/real_camera_controller.dart';
+import 'package:crave/styles/theme_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
