@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:crave/core/models/user_model.dart';
@@ -41,6 +42,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   ];
 
   List<bool> hasError = [false, false, false];
+  File? _pickedImage;
+  bool isPickingImage = false;
 
   @override
   void initState() {
@@ -152,9 +155,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Widget _step3() {
-    File? _pickedImage; // Holds the picked image
-
     void _pickImage(ImageSource source) async {
+      if (isPickingImage) return;
+      setState(() {
+        isPickingImage = true;
+      });
       try {
         final pickedFile = await ImagePicker().pickImage(source: source);
         if (pickedFile != null) {
@@ -165,6 +170,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       } on PlatformException catch (e) {
         // Handle errors related to image picking
         print('Error picking image: $e');
+      } finally {
+        setState(() {
+          isPickingImage = false;
+        });
       }
     }
 
@@ -220,12 +229,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             child: ElevatedButton(
                 style: ref.watch(stylesProvider).button.primaryLarge,
                 onPressed: () {
-                  if (controllers[step].text.isNotEmpty) {
-                    _addNewUser(
-                      "1",
-                      controllers[0].text,
-                      controllers[1].text,
-                    ).then((result) {
+                  if (_pickedImage != null) {
+                    String profilePicture =
+                        base64Encode(_pickedImage!.readAsBytesSync());
+                    _addNewUser("1", controllers[0].text, controllers[1].text,
+                            profilePicture)
+                        .then((result) {
                       if (result == true) {
                         const storage = FlutterSecureStorage();
                         storage
@@ -234,7 +243,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                                 value: userModelToJson(UserModel(
                                     id: "1",
                                     name: controllers[1].text,
-                                    email: controllers[0].text)))
+                                    email: controllers[0].text,
+                                    profilePicture: profilePicture)))
                             .then((_) => context.go('/'));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -245,6 +255,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       }
                     });
                   } else {
+                    print("error");
                     setState(() {
                       hasError[step] = true;
                     });
@@ -279,8 +290,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     }
   }
 
-  Future<bool> _addNewUser(String id, String name, String email) async {
-    UserModel newUser = UserModel(id: id, name: name, email: email);
+  Future<bool> _addNewUser(
+      String id, String name, String email, String profilePicture) async {
+    UserModel newUser = UserModel(
+        id: id, name: name, email: email, profilePicture: profilePicture);
     var result = await MongoDB.addNewUser(newUser);
     return result;
   }

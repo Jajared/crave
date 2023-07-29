@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:crave/core/models/post_model.dart';
 import 'package:crave/core/models/user_model.dart';
 import 'package:crave/db/mongodb.dart';
@@ -20,6 +23,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final storage = const FlutterSecureStorage();
   String name = "";
   String email = "";
+  Widget? profilePicture;
 
   @override
   void initState() {
@@ -35,6 +39,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         setState(() {
           name = currentUser.name;
           email = currentUser.email;
+          profilePicture =
+              Image.memory(base64Decode(currentUser.profilePicture!));
         });
       } else {
         print('User data not found.');
@@ -78,18 +84,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             children: [
               const SizedBox(height: 20),
               Center(
-                child: Hero(
-                    tag: "profile",
-                    child: SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
+                  child: Hero(
+                      tag: "profile",
+                      child: SizedBox(
+                          width: 120,
+                          height: 120,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: FittedBox(
                                 fit: BoxFit.cover,
-                                imageUrl:
-                                    "https://i.pravatar.cc/200?img=38")))),
-              ),
+                                child: profilePicture,
+                              ))))),
               const SizedBox(height: 10),
               Text(name, style: ref.watch(stylesProvider).text.title),
               Text(email, style: ref.watch(stylesProvider).text.bodyBold),

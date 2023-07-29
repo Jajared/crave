@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:crave/core/models/user_model.dart';
 import 'package:crave/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 class UserAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
@@ -21,6 +25,7 @@ class UserAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
 
 class _UserAppBarState extends ConsumerState<UserAppBar> {
   double? page;
+  Widget? profilePicture;
 
   @override
   void initState() {
@@ -30,6 +35,17 @@ class _UserAppBarState extends ConsumerState<UserAppBar> {
       setState(() {
         page = widget.controller.page;
       });
+    });
+    const FlutterSecureStorage().read(key: 'user').then((user) {
+      if (user != null) {
+        UserModel currentUser = userModelFromJson(user);
+        setState(() {
+          profilePicture =
+              Image.memory(base64Decode(currentUser.profilePicture!));
+        });
+      } else {
+        print('User data not found.');
+      }
     });
   }
 
@@ -50,9 +66,10 @@ class _UserAppBarState extends ConsumerState<UserAppBar> {
                       height: 25,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: "https://i.pravatar.cc/200?img=38")))),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: profilePicture,
+                          )))),
               onPressed: () {
                 context.push('/profile');
               },

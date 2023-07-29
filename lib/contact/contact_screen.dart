@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:crave/core/models/user_model.dart';
 import 'package:crave/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 class ContactScreen extends ConsumerStatefulWidget {
@@ -18,11 +22,27 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
   bool _searchBoxFocused = false;
   final TextEditingController _searchController = TextEditingController();
   late AnimationController _animationController;
+  Widget? profilePicture;
 
   @override
   void initState() {
     super.initState();
     HapticFeedback.lightImpact();
+    getUserData();
+  }
+
+  void getUserData() {
+    FlutterSecureStorage().read(key: 'user').then((user) {
+      if (user != null) {
+        UserModel currentUser = userModelFromJson(user);
+        setState(() {
+          profilePicture =
+              Image.memory(base64Decode(currentUser.profilePicture!));
+        });
+      } else {
+        print('User data not found.');
+      }
+    });
   }
 
   @override
@@ -121,18 +141,22 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const CircleAvatar(
-                            radius: 20,
-                            backgroundImage: CachedNetworkImageProvider(
-                                'https://i.pravatar.cc/100?img=38'),
-                          ),
+                          SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: profilePicture,
+                                  ))),
                           const SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Invite your friends on BeReal',
+                                'Invite your friends on Crave',
                                 style: ref
                                     .watch(stylesProvider)
                                     .text
