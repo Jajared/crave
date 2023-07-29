@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:bereal/core/models/post_model.dart';
 import 'package:bereal/home/real_widget.dart';
 import 'package:bereal/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,10 +7,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path/path.dart';
 
 class RealSocialWidget extends ConsumerStatefulWidget {
-  const RealSocialWidget({Key? key}) : super(key: key);
+  final PostModel data;
+  const RealSocialWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -18,10 +22,14 @@ class RealSocialWidget extends ConsumerStatefulWidget {
 
 class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
   bool _reactOpen = false;
+  var postData = {};
+  var currentLocation = "";
 
   @override
   void initState() {
     super.initState();
+    postData = widget.data.toJson();
+    fetchLocationName();
   }
 
   @override
@@ -95,11 +103,11 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "John Doe",
+                              postData["author"],
                               style:
                                   ref.watch(stylesProvider).text.bodySmallBold,
                             ),
-                            Text("Paris, France • 12:45:23",
+                            Text(currentLocation,
                                 style: ref.watch(stylesProvider).text.bodySmall)
                           ],
                         ))
@@ -120,9 +128,11 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
                   _reactOpen = false;
                 });
               },
-              child: const RealWidget(
-                  location: LatLng(37.42796133580664, -122.085749655962),
-                  photo: "https://picsum.photos/seed/123/1080/1920"),
+              child: RealWidget(
+                  location: LatLng(
+                      postData["location"]["latitude"] as double? ?? 0.0,
+                      postData["location"]["longitude"] as double? ?? 0.0),
+                  photo: postData["image"]),
             ),
             Visibility(
                 visible: !_reactOpen,
@@ -211,5 +221,34 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
         )
       ],
     );
+  }
+
+  Future<void> fetchLocationName() async {
+    currentLocation = await getLocationName(
+        postData["location"]["latitude"] as double? ?? 0.0,
+        postData["location"]["longitude"] as double? ?? 0.0);
+
+    setState(() {});
+  }
+
+  Future<String> getLocationName(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark placemark = placemarks.first;
+        String locationName = "";
+        if (placemark.subLocality != "") {
+          locationName += '${placemark.subLocality}';
+        }
+        if (placemark.country != "") {
+          locationName += ', ${placemark.country}';
+        }
+        return locationName;
+      }
+    } catch (e) {
+      print('Error getting location name: $e');
+    }
+    return 'Location Not Found';
   }
 }

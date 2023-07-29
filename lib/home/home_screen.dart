@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:bereal/core/models/post_model.dart';
 import 'package:bereal/core/providers/scroll_behavior.dart';
 import 'package:bereal/core/ui/user_appbar_widget.dart';
+import 'package:bereal/db/mongodb.dart';
 import 'package:bereal/home/real_social_widget.dart';
 import 'package:bereal/home/small_real_widget.dart';
 import 'package:bereal/real_camera/real_camera_controller.dart';
@@ -22,6 +24,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late final PageController _controller;
   late final ScrollController _scrollController;
+  List<PostModel> feedData = [];
   bool menuVisibility = true;
 
   @override
@@ -39,6 +42,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           menuVisibility = true;
         });
       }
+    });
+    getFeedData();
+  }
+
+  // Get data from mongodb
+  getFeedData() async {
+    final feedData = await MongoDB.getFeedData();
+    setState(() {
+      this.feedData = feedData;
     });
   }
 
@@ -101,16 +113,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           physics: scrollEnabled
               ? const AlwaysScrollableScrollPhysics()
               : const NeverScrollableScrollPhysics(),
-          itemCount: 3,
+          itemCount: feedData.length,
           controller: _scrollController,
           itemBuilder: (context, index) {
             if (index == 0) {
-              return const Padding(
-                padding: EdgeInsets.only(top: 90),
-                child: RealSocialWidget(),
+              return Padding(
+                padding: const EdgeInsets.only(top: 90),
+                child: RealSocialWidget(data: feedData[index]),
               );
             } else {
-              return const RealSocialWidget();
+              return RealSocialWidget(data: feedData[index]);
             }
           },
           separatorBuilder: (BuildContext context, int index) => const SizedBox(

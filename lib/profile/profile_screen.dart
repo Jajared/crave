@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:bereal/core/models/post_model.dart';
+import 'package:bereal/core/models/user_model.dart';
+import 'package:bereal/db/mongodb.dart';
 import 'package:bereal/styles/theme_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -13,10 +19,29 @@ class ProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  final storage = const FlutterSecureStorage();
+  String name = "";
+  String email = "";
+
   @override
   void initState() {
     super.initState();
     HapticFeedback.lightImpact();
+    getUserData();
+  }
+
+  void getUserData() {
+    storage.read(key: 'user').then((user) {
+      if (user != null) {
+        UserModel currentUser = userModelFromJson(user);
+        setState(() {
+          name = currentUser.name;
+          email = currentUser.email;
+        });
+      } else {
+        print('User data not found.');
+      }
+    });
   }
 
   @override
@@ -35,6 +60,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               child: const Icon(Icons.more_horiz_outlined),
               onPressed: () {},
             ),
+            TextButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                PostModel testData = PostModel(
+                    image: "https://picsum.photos/1080/1920",
+                    author: "Jared",
+                    location: {"longitude": 103.804832, "latitude": 1.439580});
+                MongoDB.addPost(testData);
+              },
+            ),
           ],
         ),
         body: Padding(
@@ -52,21 +87,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 120,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child:
-                                CachedNetworkImage(fit: BoxFit.cover, imageUrl: "https://i.pravatar.cc/200?img=38")))),
+                            child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl:
+                                    "https://i.pravatar.cc/200?img=38")))),
               ),
               const SizedBox(height: 10),
-              Text("Alice", style: ref.watch(stylesProvider).text.title),
-              Text("alice007", style: ref.watch(stylesProvider).text.bodyBold),
+              Text(name, style: ref.watch(stylesProvider).text.title),
+              Text(email, style: ref.watch(stylesProvider).text.bodyBold),
               const SizedBox(height: 200),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("🔗", style: TextStyle(fontSize: 15)),
-                  const SizedBox(width: 5),
-                  Text("BeRe.al/alice007", style: ref.watch(stylesProvider).text.bodySmall),
-                ],
-              )
             ],
           ),
         ));

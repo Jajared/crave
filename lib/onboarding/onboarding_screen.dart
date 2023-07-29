@@ -142,12 +142,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         storage
                             .write(
                                 key: 'user',
-                                value: UserModel(
-                                        id: "1",
-                                        name: controllers[1].text,
-                                        email: controllers[0].text)
-                                    .toJson()
-                                    .toString())
+                                value: userModelToJson(UserModel(
+                                    id: "1",
+                                    name: controllers[1].text,
+                                    email: controllers[0].text)))
                             .then((_) => context.go('/'));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

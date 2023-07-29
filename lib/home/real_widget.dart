@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math' as math;
 
 import 'package:bereal/core/providers/scroll_behavior.dart';
 import 'package:bereal/home/map.dart';
@@ -49,6 +48,7 @@ class _RealWidgetState extends ConsumerState<RealWidget>
       _photo = File(widget.photo);
       _location = widget.location;
     });
+    print(_location);
   }
 
   @override
