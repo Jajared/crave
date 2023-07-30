@@ -27,9 +27,10 @@ class RealCameraController extends _$RealCameraController {
   }
 
   void takePhoto() async {
+    print("taking picture");
     final image = await _controller.takePicture();
     state = RealCameraState.captured(image: image);
-
+    print("picture taken");
     final cameras = await availableCameras();
     _controller = CameraController(
         cameras.firstWhere((description) =>
@@ -38,14 +39,41 @@ class RealCameraController extends _$RealCameraController {
     await _controller.initialize();
     _controller.setZoomLevel(await _controller.getMinZoomLevel());
     _controller.setFlashMode(FlashMode.off);
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    print("getting location");
+    Position position = await _determinePosition();
     state = RealCameraState.finalized(
         location: LatLng(position.latitude, position.longitude), photo: image);
+    print("yayz");
   }
 
   void dispose() {
     _controller.stopImageStream();
     _controller.dispose();
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 }

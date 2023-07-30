@@ -149,11 +149,11 @@ class _RealCameraScreenState extends ConsumerState<RealCameraScreen>
                         ],
                       )
                     ]),
-                    finalized: (selfie, photo) =>
+                    finalized: (location, photo) =>
                         Stack(alignment: Alignment.topCenter, children: [
                       RealWidget(
                           location:
-                              LatLng(37.42796133580664, -122.085749655962),
+                              LatLng(location.latitude, location.longitude),
                           photo: photo.path),
                       Align(
                         alignment: Alignment.topRight,

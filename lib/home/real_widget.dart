@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:crave/core/providers/scroll_behavior.dart';
 import 'package:crave/home/map.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -35,20 +34,39 @@ class _RealWidgetState extends ConsumerState<RealWidget>
   @override
   void initState() {
     super.initState();
+    _photo = File(widget.photo);
+    _location = widget.location;
+    setupAnimation();
+  }
+
+  void setupAnimation() {
     _offset = Offset(_margin, _margin);
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 600));
-    _animationController.addListener(() {
-      setState(() {
-        _offset = _animation.value;
-      });
-    });
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _animation =
+        Tween<Offset>(begin: Offset.zero, end: Offset(_margin, _margin))
+            .animate(_animationController)
+          ..addListener(() {
+            setState(() {
+              _offset = _animation.value;
+            });
+          });
+  }
 
-    setState(() {
-      _photo = File(widget.photo);
-      _location = widget.location;
-    });
-    print(_location);
+  @override
+  void didUpdateWidget(covariant RealWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if the photo or location has changed
+    if (widget.photo != oldWidget.photo ||
+        widget.location != oldWidget.location) {
+      setState(() {
+        _photo = File(widget.photo);
+        _location = widget.location;
+      });
+    }
   }
 
   @override
@@ -59,6 +77,7 @@ class _RealWidgetState extends ConsumerState<RealWidget>
 
   @override
   Widget build(BuildContext context) {
+    print('ok1');
     if (_reverseOrder) {
       return Center(
         child: ClipRRect(

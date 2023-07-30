@@ -25,7 +25,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   late final PageController _controller;
   late final ScrollController _scrollController;
-  List<PostModel> feedData = [];
+  late List<PostModel> feedData = [];
   bool menuVisibility = true;
 
   @override
@@ -48,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   // Get data from mongodb
-  getFeedData() async {
+  Future<void> getFeedData() async {
     final feedData = await MongoDB.getFeedData();
     setState(() {
       this.feedData = feedData;
@@ -62,14 +62,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Your friends haven’t posted their BeReal yet, be the first one.",
+              "Your friends haven’t posted their cravings yet, be the first one.",
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: () => context.push('/camera'),
                 style: ref.watch(stylesProvider).button.primary,
-                child: const Text("Take your BeReal"))
+                child: const Text("Take your craving"))
           ],
         ));
   }

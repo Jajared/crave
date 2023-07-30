@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:crave/core/models/post_model.dart';
 import 'package:crave/home/real_widget.dart';
 import 'package:crave/styles/theme_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,15 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
   bool _reactOpen = false;
   var postData = {};
   var currentLocation = "";
+  Widget? profilePicture;
 
   @override
   void initState() {
     super.initState();
     postData = widget.data.toJson();
     fetchLocationName();
+    profilePicture = Image.memory(
+        base64Decode(postData["author"]["profilePicture"] as String));
   }
 
   @override
@@ -82,18 +85,22 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
                         width: 40,
                         height: 40,
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child:
-                                defaultTargetPlatform == TargetPlatform.iOS ||
-                                        defaultTargetPlatform ==
-                                            TargetPlatform.android
-                                    ? CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl:
-                                            "https://i.pravatar.cc/100?img=50")
-                                    : Image.network(
-                                        fit: BoxFit.cover,
-                                        "https://i.pravatar.cc/100?img=50"))),
+                          borderRadius: BorderRadius.circular(100),
+                          child: SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: profilePicture ??
+                                      const Icon(
+                                        Icons.person,
+                                        color: Colors.grey,
+                                      ),
+                                ),
+                              )),
+                        )),
                     const SizedBox(width: 10),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -102,7 +109,7 @@ class _RealSocialWidgetState extends ConsumerState<RealSocialWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              postData["author"],
+                              postData["author"]["name"],
                               style:
                                   ref.watch(stylesProvider).text.bodySmallBold,
                             ),

@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:crave/core/models/post_model.dart';
 import 'package:crave/core/models/user_model.dart';
 import 'package:crave/db/mongodb.dart';
 import 'package:crave/styles/theme_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +21,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   String name = "";
   String email = "";
   Widget? profilePicture;
+  String profileBase64 = "";
 
   @override
   void initState() {
@@ -39,8 +37,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         setState(() {
           name = currentUser.name;
           email = currentUser.email;
+          profileBase64 = currentUser.profilePicture;
           profilePicture =
-              Image.memory(base64Decode(currentUser.profilePicture!));
+              Image.memory(base64Decode(currentUser.profilePicture));
         });
       } else {
         print('User data not found.');
@@ -69,7 +68,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               onPressed: () {
                 PostModel testData = PostModel(
                     image: "https://picsum.photos/1080/1920",
-                    author: "Jared",
+                    author: UserModel(
+                      id: "1",
+                      name: "Test User",
+                      email: "test@gmail.com",
+                      profilePicture: profileBase64,
+                    ),
                     location: {"longitude": 103.804832, "latitude": 1.439580});
                 MongoDB.addPost(testData);
               },

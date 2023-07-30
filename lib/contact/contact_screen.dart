@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:crave/core/models/user_model.dart';
 import 'package:crave/styles/theme_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,12 +30,12 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
   }
 
   void getUserData() {
-    FlutterSecureStorage().read(key: 'user').then((user) {
+    const FlutterSecureStorage().read(key: 'user').then((user) {
       if (user != null) {
         UserModel currentUser = userModelFromJson(user);
         setState(() {
           profilePicture =
-              Image.memory(base64Decode(currentUser.profilePicture!));
+              Image.memory(base64Decode(currentUser.profilePicture));
         });
       } else {
         print('User data not found.');

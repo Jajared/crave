@@ -4,6 +4,7 @@ import 'package:crave/styles/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -24,5 +25,10 @@ class MyApp extends ConsumerWidget {
       theme: ref.read(themeProvider),
       routerConfig: router,
     );
+  }
+
+  Future<void> resetSecureStorage() async {
+    final secureStorage = FlutterSecureStorage();
+    await secureStorage.deleteAll();
   }
 }

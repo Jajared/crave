@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:crave/core/models/user_model.dart';
+
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
 
 String postModelToJson(PostModel data) => json.encode(data.toJson());
@@ -9,12 +11,12 @@ class PostModel {
       {required this.image, required this.author, required this.location});
 
   String image;
-  String author;
+  UserModel author;
   Map<String, double> location;
 
   factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
         image: json["image"],
-        author: json["author"],
+        author: UserModel.fromJson(json["author"]),
         location: {
           "latitude": json["location"]["latitude"],
           "longitude": json["location"]["longitude"]
@@ -23,7 +25,7 @@ class PostModel {
 
   Map<String, dynamic> toJson() => {
         "image": image,
-        "author": author,
+        "author": author.toJson(),
         "location": {
           "latitude": location["latitude"],
           "longitude": location["longitude"]
