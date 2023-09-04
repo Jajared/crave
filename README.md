@@ -1,16 +1,7 @@
-# BeReal clone made with Flutter
+# Crave
 
-Copy the code and make improvements. This is a great starting point for learning Flutter and understanding how to structure your project from the beginning.
+Inspired by the popular social media application, BeReal, Crave is a photo-sharing application that allows users to post one food photo per day to show their followers what they are eating in real-time. Each post will be tagged with the location where the photo was taken, allowing other users to find out popular food spots.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech Stack
+![Flutter](https://img.shields.io/badge/Flutter-black.svg?logo=flutter&logoColor=027DFD&style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/Mongodb-blue.svg?logo=mongodb&logoColor=green&style=for-the-badge)
